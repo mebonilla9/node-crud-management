@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  node_backend:
+    container_name: node-crud-management
+    build: 
+      context: .
+    ports:
+      - "3001:3001"
+    environment:
+      - EXTERNAL_PORT=3001
+      - PGDATABASE=management-db
+      - PGUSER=cruduser
+      - PGPASSWORD=123456
+      - PGHOST=pg_db
+    depends_on:
+      - pg_db
+  pg_db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=cruduser
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=management-db
+    volumes:
+      - pg_data_vol:/var/lib/postgresql/data
+volumes:
+  pg_data_vol: {}
